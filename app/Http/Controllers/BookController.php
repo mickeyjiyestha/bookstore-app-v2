@@ -9,11 +9,9 @@ class BookController extends Controller
 {
     public function index(Request $request) {
         $limit = $request->input('limit', 10);
-        
-        
         $search = $request->input('search');
 
-        
+        // Menggunakan paginate() untuk menambahkan paging
         $books = Book::with('author')
             ->when($search, function($query) use ($search) {
                 return $query->where('name', 'like', "%{$search}%")
@@ -22,8 +20,7 @@ class BookController extends Controller
                              });
             })
             ->orderBy('average_rating', 'desc') 
-            ->take($limit) 
-            ->get();
+            ->paginate($limit); // Menggunakan paginate() alih-alih take() dan get()
 
         return view('books.index', compact('books', 'limit', 'search'));
     }

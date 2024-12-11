@@ -45,7 +45,7 @@
     <tbody>
         @foreach ($books as $index => $b)
             <tr>
-                <td>{{ $index + 1 }}</td>
+                <td>{{ $books->firstItem() + $index }}</td> <!-- Menghitung nomor urut yang benar -->
                 <td>{{ $b->name }}</td> 
                 <td>{{ $b->category->name }}</td> 
                 <td>{{ $b->author->name }}</td> 
@@ -55,4 +55,9 @@
         @endforeach
     </tbody>
 </table>
+
+<!-- Menampilkan navigasi halaman -->
+<div class="mt-3">
+    {{ $books->appends(request()->input())->links() }} <!-- Menyertakan query string saat menampilkan tautan navigasi -->
+</div>
 @endsection
